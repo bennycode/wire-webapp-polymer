@@ -1,17 +1,23 @@
 var assets = require('gulp-bower-assets');
-var browserSync = require('browser-sync').create();
 var bower = require('gulp-bower');
+var browserSync = require('browser-sync').create();
+var insert = require('gulp-insert');
 var gulp = require('gulp');
+var rename = require('gulp-rename');
+var runSequence = require('run-sequence');
 var sass = require('gulp-sass');
 
 var config = {
   dir: {
-    app: 'app'
+    app: 'app',
+    styles_src: 'app/sass',
+    styles_dist: 'app/css'
   }
 
 };
 
-gulp.task('build', ['sass'], function() {
+gulp.task('build', function(done) {
+  runSequence(['sass'], ['copy'], ['insert'], done);
 });
 
 gulp.task('default', ['build'], function() {
@@ -43,7 +49,26 @@ gulp.task('install_bower_assets', ['install_bower'], function() {
 });
 
 gulp.task('sass', function() {
-  return gulp.src(`${config.dir.app}/sass/**/*.scss`)
+  // Compile main styles
+  gulp.src(`${config.dir.styles_src}/*.scss`)
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest(`${config.dir.app}/css`));
+    .pipe(gulp.dest(`${config.dir.styles_dist}`));
+
+  // Compile default skin
+  return gulp.src(`${config.dir.styles_src}/skins/default/*.scss`)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest(`${config.dir.styles_dist}/skins/default`));
+});
+
+gulp.task('insert', function() {
+  return gulp.src(`${config.dir.styles_dist}/skins/default/color-vars.css`)
+    .pipe(insert.append('</style>'))
+    .pipe(insert.prepend(`<style is="custom-style">`))
+    .pipe(gulp.dest(`${config.dir.styles_dist}/skins/default`));
+});
+
+gulp.task('copy', function() {
+  return gulp.src(`${config.dir.styles_dist}/skins/default/color-vars-body.css`)
+    .pipe(rename('color-vars.css'))
+    .pipe(gulp.dest(`${config.dir.styles_dist}/skins/default`));
 });
