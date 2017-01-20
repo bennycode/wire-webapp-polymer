@@ -2,10 +2,38 @@
 
 <dom-module id="pd-drawer">
   <template>
-    <p>LeftShow:<input type="text" value="{{leftShow::input}}"></p>
-    <p>RightShow:<input type="text" value="{{rightShow}}"></p>
-    <p>The value of leftShow is: <span>{{leftShow}}</span></p>
-    <p>The value of rightShow is: <span>{{rightShow}}</span></p>
+    <div id="drawer" class$="{{mainClasses}}">
+      <div class="c-p paper-toolbar p-l-05 p-r-05 shadow-bottom">
+        <div class="scrim" on-click="closeDrawers"></div>
+        <paper-icon-button class="left-show-btn f-left" icon="menu" title="menu" on-click="toggleLeft"></paper-icon-button>
+        <div class="pd-toolbar-header p-l-05 f-left">
+          <!-- Header -->
+        </div>
+        <paper-icon-button class="right-show-btn f-right" icon="more-vert" title="more-vert" on-click="toggleRight"></paper-icon-button>
+      </div>
+      <div class="main c-n-dark">
+        <div class="main-section">
+          <!-- Main -->
+        </div>
+        <div class="scrim" on-click="closeDrawers"></div>
+        <div class="left-drawer c-n-light shadow-right">
+          <div class="drawer-inner">
+            <div class="drawer-inner-width">
+              <!-- Left -->
+              <paper-icon-button class="pin-btn c-text-light" icon="turned-in" title="turned-in" on-click="pinLeft"></paper-icon-button>
+            </div>
+          </div>
+        </div>
+        <div class="right-drawer c-n-light shadow-left">
+          <div class="drawer-inner">
+            <div class="drawer-inner-width">
+              <!-- Right -->
+              <paper-icon-button class="pin-btn c-text-light" icon="turned-in" title="turned-in" on-click="pinRight"></paper-icon-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </template>
 </dom-module>
 
@@ -13,15 +41,63 @@
   Polymer({
     is: "pd-drawer",
     properties: {
+      leftLocked: {
+        type: Boolean,
+        value: true
+      },
       leftShow: {
         type: Boolean,
-        value: true,
-        notify:true
+        value: false
+      },
+      rightLocked: {
+        type: Boolean,
+        value: true
       },
       rightShow: {
         type: Boolean,
-        value: true
+        value: false
+      },
+      mobileMode: {
+        type: Boolean,
+        value: false,
+      },
+      tabletMode: {
+        type: Boolean,
+        value: false,
+      },
+      pcMode: {
+        type: Boolean,
+        value: false,
+      },
+      mainClasses: {
+        type: String,
+        computed: '_computeClasses(leftShow, rightShow, leftLocked, rightLocked, mobileMode, tabletMode, pcMode)'
+      },
+      drawerClasses: {
+        type: String,
+        value: "",
+        reflectToAttribute: true,
+        notify: true
       }
+    },
+    _computeClasses: function(leftShow, rightShow, leftLocked, rightLocked, mobileMode, tabletMode, pcMode) {
+      var classStr = [];
+      if (leftLocked)
+        classStr.push('left-locked');
+      if (leftShow)
+        classStr.push('left-show');
+      if (rightLocked)
+        classStr.push('right-locked');
+      if (rightShow)
+        classStr.push('right-show');
+      if (mobileMode)
+        classStr.push('mobile-mode-main');
+      if (tabletMode)
+        classStr.push('tablet-mode-main');
+      if (pcMode)
+        classStr.push('pc-mode-main');
+      this.drawerClasses = classStr.join(' ');
+      return classStr.join(' ');
     }
   });
 </script>
