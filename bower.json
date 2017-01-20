@@ -1,8 +1,8 @@
 {
-  "dependencies": {},
-  "name": "wire-webapp-polymer",
-  "private": true,
-  "devDependencies": {
+  "dependencies": {
+    "paper-icon-button": "^1.1.4",
     "polymer": "^1.7.1"
-  }
+  },
+  "name": "wire-webapp-polymer",
+  "private": true
 }
