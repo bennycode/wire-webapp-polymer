@@ -13,16 +13,15 @@ var config = {
     styles_src: 'app/sass',
     styles_dist: 'app/css'
   }
-
 };
 
 gulp.task('build', function(done) {
-  runSequence(['sass'], ['copy'], ['insert'], done);
+  runSequence(['styles_build'], ['styles_copy'], ['styles_insert'], done);
 });
 
 gulp.task('default', ['build'], function() {
   gulp.watch('app/**/*.html').on('change', browserSync.reload);
-  gulp.watch(`${config.dir.app}/sass/**/*.scss`, ['sass']);
+  gulp.watch(`${config.dir.app}/sass/**/*.scss`, ['styles_build']);
 
   browserSync.init({
     port: 3636,
@@ -48,26 +47,28 @@ gulp.task('install_bower_assets', ['install_bower'], function() {
     .pipe(gulp.dest(`${config.dir.app}/lib`));
 });
 
-gulp.task('sass', function() {
-  // Compile main styles
-  gulp.src(`${config.dir.styles_src}/*.scss`)
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest(`${config.dir.styles_dist}`));
+gulp.task('styles_build', function() {
+  var path;
 
-  // Compile default skin
-  return gulp.src(`${config.dir.styles_src}/skins/default/*.scss`)
+  path = '/';
+  gulp.src(`${config.dir.styles_src}${path}*.scss`)
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest(`${config.dir.styles_dist}/skins/default`));
+    .pipe(gulp.dest(`${config.dir.styles_dist}${path}`));
+
+  path = '/skins/default/';
+  return gulp.src(`${config.dir.styles_src}${path}*.scss`)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest(`${config.dir.styles_dist}${path}`));
 });
 
-gulp.task('insert', function() {
+gulp.task('styles_insert', function() {
   return gulp.src(`${config.dir.styles_dist}/skins/default/color-vars.css`)
     .pipe(insert.append('</style>'))
     .pipe(insert.prepend(`<style is="custom-style">`))
     .pipe(gulp.dest(`${config.dir.styles_dist}/skins/default`));
 });
 
-gulp.task('copy', function() {
+gulp.task('styles_copy', function() {
   return gulp.src(`${config.dir.styles_dist}/skins/default/color-vars-body.css`)
     .pipe(rename('color-vars.css'))
     .pipe(gulp.dest(`${config.dir.styles_dist}/skins/default`));
