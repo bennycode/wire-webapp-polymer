@@ -26,7 +26,7 @@ gulp.task('default', ['build'], function() {
   browserSync.init({
     port: 3636,
     server: {baseDir: './'},
-    startPath: `/index.html`
+    startPath: `/`
   });
 });
 
