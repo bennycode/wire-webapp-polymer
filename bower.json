@@ -1,0 +1,8 @@
+{
+  "dependencies": {},
+  "name": "wire-webapp-polymer",
+  "private": true,
+  "devDependencies": {
+    "polymer": "^1.7.1"
+  }
+}

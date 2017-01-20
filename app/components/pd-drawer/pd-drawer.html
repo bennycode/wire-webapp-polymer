@@ -1,0 +1,27 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<dom-module id="pd-drawer">
+  <template>
+    <p>LeftShow:<input type="text" value="{{leftShow::input}}"></p>
+    <p>RightShow:<input type="text" value="{{rightShow}}"></p>
+    <p>The value of leftShow is: <span>{{leftShow}}</span></p>
+    <p>The value of rightShow is: <span>{{rightShow}}</span></p>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: "pd-drawer",
+    properties: {
+      leftShow: {
+        type: Boolean,
+        value: true,
+        notify:true
+      },
+      rightShow: {
+        type: Boolean,
+        value: true
+      }
+    }
+  });
+</script>
