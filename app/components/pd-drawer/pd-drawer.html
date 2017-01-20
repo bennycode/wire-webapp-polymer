@@ -7,19 +7,19 @@
         <div class="scrim" on-click="closeDrawers"></div>
         <paper-icon-button class="left-show-btn f-left" icon="menu" title="menu" on-click="toggleLeft"></paper-icon-button>
         <div class="pd-toolbar-header p-l-05 f-left">
-          <!-- Header -->
+          <content select=".logo"></content>
         </div>
         <paper-icon-button class="right-show-btn f-right" icon="more-vert" title="more-vert" on-click="toggleRight"></paper-icon-button>
       </div>
       <div class="main c-n-dark">
         <div class="main-section">
-          <!-- Main -->
+          <content select="#main"></content>
         </div>
         <div class="scrim" on-click="closeDrawers"></div>
         <div class="left-drawer c-n-light shadow-right">
           <div class="drawer-inner">
             <div class="drawer-inner-width">
-              <!-- Left -->
+              <content select=".left-menu"></content>
               <paper-icon-button class="pin-btn c-text-light" icon="turned-in" title="turned-in" on-click="pinLeft"></paper-icon-button>
             </div>
           </div>
@@ -27,7 +27,7 @@
         <div class="right-drawer c-n-light shadow-left">
           <div class="drawer-inner">
             <div class="drawer-inner-width">
-              <!-- Right -->
+              <content select=".right-menu"></content>
               <paper-icon-button class="pin-btn c-text-light" icon="turned-in" title="turned-in" on-click="pinRight"></paper-icon-button>
             </div>
           </div>
