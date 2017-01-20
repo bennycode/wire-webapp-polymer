@@ -2,15 +2,21 @@ var assets = require('gulp-bower-assets');
 var browserSync = require('browser-sync').create();
 var bower = require('gulp-bower');
 var gulp = require('gulp');
+var sass = require('gulp-sass');
 
 var config = {
   dir: {
     app: 'app'
   }
+
 };
 
-gulp.task('default', function() {
+gulp.task('build', ['sass'], function() {
+});
+
+gulp.task('default', ['build'], function() {
   gulp.watch('app/**/*.html').on('change', browserSync.reload);
+  gulp.watch(`${config.dir.app}/sass/**/*.scss`, ['sass']);
 
   browserSync.init({
     port: 3636,
@@ -33,5 +39,11 @@ gulp.task('install_bower_assets', ['install_bower'], function() {
         return prefix + '/' + name;
       }
     }))
-    .pipe(gulp.dest(`#{config.dir.app}/lib`));
+    .pipe(gulp.dest(`${config.dir.app}/lib`));
+});
+
+gulp.task('sass', function() {
+  return gulp.src(`${config.dir.app}/sass/**/*.scss`)
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest(`${config.dir.app}/css`));
 });

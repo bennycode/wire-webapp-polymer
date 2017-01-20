@@ -6,6 +6,7 @@
 !/.idea/vcs.xml
 !/.idea/watcherTasks.xml
 
+/app/css
 /bower_components
 /node_modules
 /npm-debug.log*
