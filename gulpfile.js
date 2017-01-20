@@ -9,7 +9,7 @@ var config = {
   }
 };
 
-gulp.task('default', function () {
+gulp.task('default', function() {
   gulp.watch('app/**/*.html').on('change', browserSync.reload);
 
   browserSync.init({
@@ -19,17 +19,17 @@ gulp.task('default', function () {
   });
 });
 
-gulp.task('install', ['install_bower_assets'], function () {
+gulp.task('install', ['install_bower_assets'], function() {
 });
 
-gulp.task('install_bower', function () {
+gulp.task('install_bower', function() {
   return bower({cmd: 'install'});
 });
 
-gulp.task('install_bower_assets', ['install_bower'], function () {
+gulp.task('install_bower_assets', ['install_bower'], function() {
   return gulp.src('bower_assets.json')
     .pipe(assets({
-      prefix: function (name, prefix) {
+      prefix: function(name, prefix) {
         return prefix + '/' + name;
       }
     }))
